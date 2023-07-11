@@ -46,17 +46,18 @@ endm
             add ax, cx 
             add cl, 1
             cmp cl, bl 
-        jle sum 
+            jle sum 
         
          
         mov bl, 10
         div bl         ; AX/BX = AX:DX or AX/BL=AH:AL
         
-        mov Quo, ah
-        mov Rem, al
-          
+        mov Quo, al
+        mov Rem, ah
+        
+        printChar Quo  
         printChar Rem         
-        printChar Quo
+        
         
         
         exit:

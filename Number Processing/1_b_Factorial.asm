@@ -5,13 +5,6 @@ iprint macro p1
     mov ah, 9
     int 21h
 endm  
-; macro for output
-oprint macro p1
-    mov dl, p1
-    add dl, 48
-    mov ah, 2
-    int 21h
-endm
 
 .model small
 .stack 100h
@@ -24,10 +17,12 @@ main proc
     mov ds, ax
     
     mov dx, offset msg1
-    iprint dx
+    iprint dx    
+    
     ; take input
     mov ah, 1
-    int 21h
+    int 21h 
+    
     sub al, 48
     mov bl, al 
     
@@ -37,19 +32,29 @@ main proc
     iprint dx  
     
     ;factorial calculate
-    mov cx, 1
-    mov ax, 1
+    mov cl, 1
+    mov al, 1
     L1: 
-        mul cx
+        mul cl
         aam        ; ASCII Adjust After Multiplication: AX = AH:AL
-        add cx, 1
-        cmp cx, bx 
+        add cl, 1
+        cmp cl, bl 
         jle L1
+                  
     mov ch, ah
-    mov cl, al
+    mov cl, al  
     
-    oprint ch
-    oprint cl    
+    add ch, 48
+    add cl, 48
+                      
+    ;print ah and al    
+    mov dl, ch
+    mov ah, 2 
+    int 21h
+    
+    mov dl, cl
+    mov ah, 2
+    int 21h   
     
     exit:
         mov ah, 4ch

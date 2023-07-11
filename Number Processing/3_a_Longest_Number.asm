@@ -8,10 +8,10 @@ endm
 .model small
 .stack 100h
 .data
-array DB 100 dup('$')   ; create an array of 100 bytes, initialized to 0     
-inpmsg db 'Enter the array element: $'
-opmsg db 'The largest number is: $'
-res db ?                ; result byte to store the largest number
+    array DB 100 dup('$')   ; create an array of 100 bytes, initialized to 0     
+    inpmsg db 'Enter the array element: $'
+    opmsg db 'The largest number is: $'
+    res db ?                ; result byte to store the largest number
 .code
 main proc
     mov ax, @data       ; initialize data segment
@@ -21,7 +21,7 @@ main proc
     printString dx      ; use DX instead of DL to store the offset address
 
     mov cx, 0           ; set the loop counter to 5, the size of the array
-    mov bl, 0           ; initialize the largest number to zero
+    mov res, 0           ; initialize the largest number to zero
 
     lea si, array       ; load the address of the array into SI
 user_input:
@@ -41,17 +41,16 @@ user_input:
     lea si, array
 up:
     mov al, [si]        ; move the byte pointed to by SI into AL
-    cmp al, bl          ; compare the value in AL with the current largest number
+    cmp al, res          ; compare the value in AL with the current largest number
     jle nxt             ; if it's less or equal, jump to the next iteration
 
-    mov bl, al          ; otherwise, store the new largest number in BL
+    mov res, al          ; otherwise, store the new largest number in BL
 
 nxt:
     inc si              ; increment the pointer to the array
     dec cx              ; decrement the loop counter
     jnz up              ; if the loop counter is not zero, jump to the next iteration
-
-    mov res, bl         ; store the largest number in the result variable
+                      
     mov dl, res         ; move the result byte into DL for printing
     mov ah, 2           ; print the result
     int 21h

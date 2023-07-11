@@ -58,8 +58,8 @@ main proc
         
     call enterkey
     mov si, offset string 
-    cld    
     
+    cld          ; DF=0, left to right
     check:      
         lodsb    ;mov al, [si] 
         cmp al, 13
@@ -85,9 +85,7 @@ main proc
         repne scasb
         je spacount
     
-        jmp print
-    
-    jmp print      
+        jmp print      
         
     vowcount:
         inc vowel 
